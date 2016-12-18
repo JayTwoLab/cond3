@@ -11,13 +11,18 @@ public:
     Condition();
 
 public:
-    // setConditionExpression( ce )
-    // setCE( ce )
+    bool setConditionExpression( ConditionExpression ce );
+    bool setCE( ConditionExpression ce );
 
     // setSOC( soc )
     // setSubjectOfComparison( soc )
 
     // bool compare()
+    // bool compare( soc )
+
+protected:
+    ConditionExpression ce;
+    // soc
 
 };
 
