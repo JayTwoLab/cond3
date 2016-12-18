@@ -27,3 +27,9 @@
 *.exe
 *.out
 *.app
+
+# qt precompiled file
+.qmake.stash
+Makefile
+Makefile.Debug
+Makefile.Release
