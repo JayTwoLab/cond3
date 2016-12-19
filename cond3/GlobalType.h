@@ -24,4 +24,11 @@ enum ConditionOperator {
 
 typedef ConditionOperator CO;
 
+enum BooleanOperator {
+    And = 1,
+    Or = 2,
+};
+
+typedef BooleanOperator BO;
+
 #endif // GLOBALTYPE_H

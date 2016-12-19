@@ -13,7 +13,7 @@ public:
     void setConditionExpression( uint64_t number, CE ce );
     void setCE( uint64_t number, CE ce );
 public:
-    bool compare( SOC soc );
+    bool evaluate( SOC soc );
     bool getResult(bool& conditionResult);
 protected:
     ConditionExpression ce;

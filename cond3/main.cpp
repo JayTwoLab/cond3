@@ -14,6 +14,7 @@ using namespace std;
 #include "SubjectOfComparison.h"
 #include "ConditionExpression.h"
 #include "Condition.h"
+#include "BooleanCondition.h"
 
 void TestValue();
 void TestCondition();
@@ -64,9 +65,9 @@ void TestCondition()
     uint64_t numberOfCondition = 1;
     cond.setCE( numberOfCondition, ce );
 
-    //  3) compare condition
+    //  3) evaluate the condition
 
-    bool retCmp = cond.compare( soc );
+    bool retCmp = cond.evaluate( soc );
     if ( retCmp )
         cout << "true" << endl;
     else

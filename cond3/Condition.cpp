@@ -29,7 +29,7 @@ void Condition::setCE( uint64_t number, CE ce )
 }
 
 //----------------------------------------------------------------------
-bool Condition::compare( SOC soc )
+bool Condition::evaluate( SOC soc )
 {
     if ( !isSetCE )
     {
