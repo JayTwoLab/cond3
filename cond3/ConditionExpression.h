@@ -9,11 +9,13 @@ class ConditionExpression
 public:
     ConditionExpression();
 public:
+    ConditionExpression& operator=(ConditionExpression op);
+public:
     ConditionOperator op;
     std::string operand;
     Value val;
-
-
 };
+
+typedef ConditionExpression CE; // alias
 
 #endif // CONDITIONEXPRESSION_H

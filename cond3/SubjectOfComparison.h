@@ -1,3 +1,7 @@
+//
+// SubjectOfComparison.h
+//
+
 #ifndef SUBJECTOFCOMPARISON_H
 #define SUBJECTOFCOMPARISON_H
 
@@ -9,10 +13,12 @@ class SubjectOfComparison
 public:
     SubjectOfComparison();
 public:
+    SubjectOfComparison& operator=(SubjectOfComparison& soc);
+public:
     std::string key;
     Value val;
-protected:
-
 };
+
+typedef SubjectOfComparison SOC; // alias
 
 #endif // SUBJECTOFCOMPARISON_H

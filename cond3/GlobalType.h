@@ -12,12 +12,16 @@ enum ValueType {
     String     = 3,
 };
 
+typedef ValueType VT;
+
 enum ConditionOperator {
-    equal            = 1,
+    isEqual          = 1,
     greaterThan      = 2,
     greaterEqualThan = 3,
     lessThan         = 4,
     lessEqualThan    = 5,
 };
+
+typedef ConditionOperator CO;
 
 #endif // GLOBALTYPE_H

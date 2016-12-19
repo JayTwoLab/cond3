@@ -15,50 +15,63 @@ using namespace std;
 #include "ConditionExpression.h"
 #include "Condition.h"
 
-void TestCode1();
-void TestCode2();
+void TestValue();
+void TestCondition();
+void TestBooleanCondition();
 
 int main(int argc, char *argv[])
 { // QCoreApplication a(argc, argv);
 
-    TestCode1();
-    TestCode2();
-
-
+    // TestValue();
+    TestCondition();
+    // TestBooleanCondition();
 
     return 0; // return a.exec();
 }
 
 //---------------------------------------------
-void TestCode2()
+void TestBooleanCondition()
 {
-
     // TODO:
-    //  1) set condition to conditionExpression
-    ConditionExpression ce;
-    ce.op      = ConditionOperator::lessThan;
-    ce.operand = "LATITUDE";
-    ce.val     = double(42);
-
-    // condition.setCE( ce )
-
-    //  2) set soc to condition
-    SubjectOfComparison soc;
-    soc.key       = "LATITUDE";
-    soc.val       = double(37.8);
-
-    // condition.setSOC( soc )
-
-    //  3) compare conditionExpression
-
-    // bool ret = condition.compare()
-
+    // 0) define list of condition (LOC)
+    // 1) define BooleanCondtion (BC)
+    // 2) define list of BooleanCondtion (BC)
 
 
 }
 
 //---------------------------------------------
-void TestCode1()
+void TestCondition()
+{
+    // usage of condition
+
+    //  1) set condition to condition expression
+    ConditionExpression ce;
+    ce.op      = ConditionOperator::lessThan; // <
+    ce.operand = "LATITUDE";
+    ce.val     = double(42);
+
+    //  2) set a subject of comparison to condition
+    SubjectOfComparison soc;
+    soc.key       = "LATITUDE";
+    soc.val       = double(37.8);
+
+    Condition cond;
+    uint64_t numberOfCondition = 1;
+    cond.setCE( numberOfCondition, ce );
+
+    //  3) compare conditionExpression
+
+    bool retCmp = cond.compare( soc );
+    if ( retCmp )
+        cout << "true" << endl;
+    else
+        cout << "false" << endl;
+
+}
+
+//---------------------------------------------
+void TestValue()
 {
     Value v1;
     uint64_t code = 10;

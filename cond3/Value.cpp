@@ -9,9 +9,9 @@ Value::Value()
     valueType = ValueType::NotSet;
 }
 
-// Value::~Value()
-// {
-// }
+Value::~Value()
+{
+}
 
 
 Value& Value::operator=(uint64_t num)
@@ -40,6 +40,7 @@ ValueType Value::type()
     return this->valueType;
 }
 
+//-------------------------------------------------------------------
 Value& Value::operator=(Value& other)
 {
     ValueType vt = other.type();
@@ -71,6 +72,209 @@ Value& Value::operator=(Value& other)
     return (*this);
 }
 
+//-------------------------------------------------------------------
+bool Value::operator==(Value& val)
+{
+    VT vt = this->type();
+    if ( vt != val.type() )
+    {
+        return false; // different type
+    }
+
+    switch( vt )
+    {
+        case ValueType::Number :
+            {
+                if ( this->numberValue == val.getNumber() )
+                {
+                    return true;
+                }
+            }
+            break;
+
+        case ValueType::RealNumber :
+            {
+                if ( this->realValue == val.getRealNumber() )
+                {
+                    return true;
+                }
+            }
+            break;
+
+        case ValueType::String :
+            {
+                if ( this->stringValue == val.getString() )
+                {
+                    return true;
+                }
+            }
+            break;
+
+        default:
+            {
+                return false; // undefined type
+            }
+    }
+
+    return false;
+}
+
+//-------------------------------------------------------------------
+bool Value::operator>(Value& val)
+{
+    VT vt = this->type();
+    if ( vt != val.type() )
+    {
+        return false; // different type
+    }
+
+    switch( vt )
+    {
+        case ValueType::Number :
+            {
+                if ( this->numberValue > val.getNumber() )
+                {
+                    return true;
+                }
+            }
+            break;
+
+        case ValueType::RealNumber :
+            {
+                if ( this->realValue > val.getRealNumber() )
+                {
+                    return true;
+                }
+            }
+            break;
+
+        default:
+            {
+                return false; // undefined type
+            }
+    }
+
+    return false;
+}
+
+//-------------------------------------------------------------------
+bool Value::operator>=(Value& val)
+{
+    VT vt = this->type();
+    if ( vt != val.type() )
+    {
+        return false; // different type
+    }
+
+    switch( vt )
+    {
+        case ValueType::Number :
+            {
+                if ( this->numberValue >= val.getNumber() )
+                {
+                    return true;
+                }
+            }
+            break;
+
+        case ValueType::RealNumber :
+            {
+                if ( this->realValue >= val.getRealNumber() )
+                {
+                    return true;
+                }
+            }
+            break;
+
+        default:
+            {
+                return false; // undefined type
+            }
+    }
+
+    return false;
+}
+
+//-------------------------------------------------------------------
+bool Value::operator<(Value& val)
+{
+    VT vt = this->type();
+    if ( vt != val.type() )
+    {
+        return false; // different type
+    }
+
+    switch( vt )
+    {
+        case ValueType::Number :
+            {
+                if ( this->numberValue < val.getNumber() )
+                {
+                    return true;
+                }
+            }
+            break;
+
+        case ValueType::RealNumber :
+            {
+                double realValue    = this->realValue;
+                double compareValue = val.getRealNumber();
+                // if ( this->realValue < val.getRealNumber() )
+                if ( realValue < compareValue )
+                {
+                    return true;
+                }
+            }
+            break;
+
+        default:
+            {
+                return false; // undefined type
+            }
+    }
+
+    return false;
+}
+
+//-------------------------------------------------------------------
+bool Value::operator<=(Value& val)
+{
+    VT vt = this->type();
+    if ( vt != val.type() )
+    {
+        return false; // different type
+    }
+
+    switch( vt )
+    {
+        case ValueType::Number :
+            {
+                if ( this->numberValue <= val.getNumber() )
+                {
+                    return true;
+                }
+            }
+            break;
+
+        case ValueType::RealNumber :
+            {
+                if ( this->realValue <= val.getRealNumber() )
+                {
+                    return true;
+                }
+            }
+            break;
+
+        default:
+            {
+                return false; // undefined type
+            }
+    }
+
+    return false;
+}
+
+//-------------------------------------------------------------------
 uint64_t Value::getNumber()
 {
     if ( valueType == ValueType::Number )

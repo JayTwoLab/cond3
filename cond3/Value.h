@@ -7,18 +7,26 @@ class Value
 {
 public:
     Value();
-    // virtual ~Value();
+    virtual ~Value();
+
 public:
     ValueType type();
+public:
+    uint64_t getNumber();
+    double getRealNumber();
+    std::string getString();
+
 public:
     Value& operator=(Value& val);
     Value& operator=(uint64_t num);
     Value& operator=(double realNum);
     Value& operator=(std::string str);
 public:
-    uint64_t getNumber();
-    double getRealNumber();
-    std::string getString();
+    bool operator==(Value& val);
+    bool operator>(Value& val);
+    bool operator>=(Value& val);
+    bool operator<(Value& val);
+    bool operator<=(Value& val);
 
 protected:
     ValueType valueType;

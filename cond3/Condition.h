@@ -11,19 +11,19 @@ public:
     Condition();
 
 public:
-    bool setConditionExpression( ConditionExpression ce );
-    bool setCE( ConditionExpression ce );
-
-    // setSOC( soc )
-    // setSubjectOfComparison( soc )
-
-    // bool compare()
-    // bool compare( soc )
-
+    void setConditionExpression( uint64_t number, CE ce );
+    void setCE( uint64_t number, CE ce );
+public:
+    bool compare( SOC soc );
+    bool getResult(bool& conditionResult);
 protected:
     ConditionExpression ce;
-    // soc
-
+    uint64_t conditionNumber;
+    bool isSetCE;
+    bool result;
+    bool isSetResult;
 };
+
+typedef Condition COND; // alias
 
 #endif // CONDITION_H
