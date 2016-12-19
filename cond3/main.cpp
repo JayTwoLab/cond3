@@ -23,8 +23,8 @@ int main(int argc, char *argv[])
 { // QCoreApplication a(argc, argv);
 
     // TestValue();
-    TestCondition();
-    // TestBooleanCondition();
+    // TestCondition();
+    TestBooleanCondition();
 
     return 0; // return a.exec();
 }
@@ -33,9 +33,12 @@ int main(int argc, char *argv[])
 void TestBooleanCondition()
 {
     // TODO:
+
     // 0) define list of condition (LOC)
-    // 1) define BooleanCondtion (BC)
-    // 2) define list of BooleanCondtion (BC)
+
+    // 1) define BooleanCondition (BC)
+
+    // 2) define list of BooleanCondition (BC)
 
 
 }
@@ -46,8 +49,9 @@ void TestCondition()
     // usage of condition
 
     //  1) set condition to condition expression
+    //   the condition means that latitude is less than 42.
     ConditionExpression ce;
-    ce.op      = ConditionOperator::lessThan; // <
+    ce.op      = ConditionOperator::lessThan; // LATITUDE < 42
     ce.operand = "LATITUDE";
     ce.val     = double(42);
 
@@ -60,7 +64,7 @@ void TestCondition()
     uint64_t numberOfCondition = 1;
     cond.setCE( numberOfCondition, ce );
 
-    //  3) compare conditionExpression
+    //  3) compare condition
 
     bool retCmp = cond.compare( soc );
     if ( retCmp )

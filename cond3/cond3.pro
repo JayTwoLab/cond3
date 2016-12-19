@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     SubjectOfComparison.cpp \
     Condition.cpp \
     ConditionExpression.cpp \
-    Value.cpp
+    Value.cpp \
+    BooleanCondition.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -31,4 +32,5 @@ HEADERS += \
     Condition.h \
     ConditionExpression.h \
     GlobalType.h \
-    Value.h
+    Value.h \
+    BooleanCondition.h

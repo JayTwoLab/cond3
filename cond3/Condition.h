@@ -9,7 +9,6 @@ class Condition
 {
 public:
     Condition();
-
 public:
     void setConditionExpression( uint64_t number, CE ce );
     void setCE( uint64_t number, CE ce );
