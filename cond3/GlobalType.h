@@ -11,7 +11,6 @@ enum ValueType {
     RealNumber = 2,
     String     = 3,
 };
-
 typedef ValueType VT;
 
 enum ConditionOperator {
@@ -21,14 +20,12 @@ enum ConditionOperator {
     lessThan         = 4,
     lessEqualThan    = 5,
 };
-
 typedef ConditionOperator CO;
 
 enum BooleanOperator {
     And = 1,
     Or = 2,
 };
-
 typedef BooleanOperator BO;
 
 #endif // GLOBALTYPE_H

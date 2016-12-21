@@ -20,6 +20,10 @@ void BooleanCondition::setCondition( uint64_t numberBC, BooleanOperator bo )
 //-----------------------------------------------------------------------
 bool BooleanCondition::evaluate( bool first, bool second, bool& result )
 {
+    if ( 0 == this->number )
+    {
+        return false;
+    }
 
     switch ( booleanOperator )
     {

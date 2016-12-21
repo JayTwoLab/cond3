@@ -12,7 +12,6 @@ public:
     BooleanCondition();
 public:
     void setCondition( uint64_t numberBC, BooleanOperator bo );
-    // setCondition( uint64_t numberBC, BooleanOperator bo , BC-NUM/COND-NUM, BC-NUM/COND-NUM )
 public:
     bool evaluate(  bool first, bool second, bool& result );
     bool getResult( uint64_t& num, bool& out );

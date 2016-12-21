@@ -38,6 +38,17 @@ void TestBooleanCondition()
     // 0) define list of condition (LOC)
 
     // 1) define BooleanCondition (BC)
+    BooleanCondition bc;
+    bc.setCondition( 1, BooleanOperator::And );
+
+    bool first  = true;
+    bool second = false;
+
+    bool result;
+    if ( bc.evaluate( first, second, result ) )
+    {
+
+    }
 
     // 2) define list of BooleanCondition (BC)
 
@@ -68,6 +79,7 @@ void TestCondition()
     //  3) evaluate the condition
 
     bool retCmp = cond.evaluate( soc );
+    // cond.getResult();
     if ( retCmp )
         cout << "true" << endl;
     else
