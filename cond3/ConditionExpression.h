@@ -8,6 +8,8 @@ class ConditionExpression
 {
 public:
     ConditionExpression();
+    ConditionExpression( ConditionOperator ceOperator, std::string ceOperand, Value ceValue );
+    virtual ~ConditionExpression();
 public:
     ConditionExpression& operator=(ConditionExpression op);
 public:

@@ -15,6 +15,21 @@ Condition::Condition()
 }
 
 //----------------------------------------------------------------------
+Condition::Condition( uint64_t number, CE ce )
+{
+    this->ce = ce;
+    this->conditionNumber = number;
+    this->isSetCE = true;
+    this->isSetResult = false;
+}
+
+//----------------------------------------------------------------------
+Condition::~Condition()
+{
+
+}
+
+//----------------------------------------------------------------------
 void Condition::setConditionExpression( uint64_t number, CE conditionExpression )
 {
     this->ce = conditionExpression;
@@ -157,3 +172,13 @@ bool Condition::getResult(bool& conditionResult)
 }
 
 //----------------------------------------------------------------------
+uint64_t Condition::getConditionNumber()
+{
+    return (this->conditionNumber);
+}
+
+//----------------------------------------------------------------------
+std::string Condition::getConditionExpressionOperand()
+{
+    return (this->ce.operand);
+}

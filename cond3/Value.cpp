@@ -9,6 +9,24 @@ Value::Value()
     valueType = ValueType::NotSet;
 }
 
+Value::Value(uint64_t num)
+{
+    this->numberValue = num;
+    this->valueType = ValueType::Number;
+}
+
+Value::Value(double realNum)
+{
+    this->realValue = realNum;
+    this->valueType = ValueType::RealNumber;
+}
+
+Value::Value( std::string str )
+{
+    this->stringValue = str;
+    this->valueType = ValueType::String;
+}
+
 Value::~Value()
 {
 }

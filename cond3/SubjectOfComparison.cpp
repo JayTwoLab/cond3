@@ -16,6 +16,19 @@ SubjectOfComparison::SubjectOfComparison()
 }
 
 //-----------------------------------------------------------------------------
+SubjectOfComparison::SubjectOfComparison( std::string socKey, Value socValue )
+{
+    this->key = socKey;
+    this->val = socValue;
+}
+
+//-----------------------------------------------------------------------------
+SubjectOfComparison::~SubjectOfComparison()
+{
+
+}
+
+//-----------------------------------------------------------------------------
 // operator=
 SubjectOfComparison& SubjectOfComparison::operator=(SubjectOfComparison& soc)
 {

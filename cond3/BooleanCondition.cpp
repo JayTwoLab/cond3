@@ -6,15 +6,20 @@ BooleanCondition::BooleanCondition()
 {
     this->number = 0;
     this->isSet = false;
+}
+
+//-----------------------------------------------------------------------
+BooleanCondition::~BooleanCondition()
+{
 
 }
 
 //-----------------------------------------------------------------------
-void BooleanCondition::setCondition( uint64_t numberBC, BooleanOperator bo )
+void BooleanCondition::setCondition( uint64_t numberBC, BooleanOperator bo, bool isFinalCondition )
 {
-    this->number = numberBC;
+    this->number          = numberBC;
     this->booleanOperator = bo;
-
+    this->isFinal         = isFinalCondition;
 }
 
 //-----------------------------------------------------------------------

@@ -10,11 +10,13 @@ class BooleanCondition
 {
 public:
     BooleanCondition();
+    virtual ~BooleanCondition();
 public:
-    void setCondition( uint64_t numberBC, BooleanOperator bo );
+    void setCondition( uint64_t numberBC, BooleanOperator bo, bool isFinalCondition );
 public:
     bool evaluate(  bool first, bool second, bool& result );
     bool getResult( uint64_t& num, bool& out );
+    // bool getConditionNumber( uint64_t& numberBC,  );
 protected:
     uint64_t number;
     bool isSet;

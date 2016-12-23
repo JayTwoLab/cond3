@@ -3,6 +3,17 @@
 
 ConditionExpression::ConditionExpression()
 {
+}
+
+ConditionExpression::ConditionExpression( ConditionOperator ceOperator, std::string ceOperand, Value ceValue )
+{
+    this->op      = ceOperator;
+    this->operand = ceOperand;
+    this->val     = ceValue;
+}
+
+ConditionExpression::~ConditionExpression()
+{
 
 }
 
