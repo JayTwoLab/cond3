@@ -1,20 +1,10 @@
+TARGET = cond3
+TEMPLATE = app
 QT += core
 QT -= gui
-
 CONFIG += c++11
-
-TARGET = cond3
 CONFIG += console
 CONFIG -= app_bundle
-
-TEMPLATE = app
-
-SOURCES += main.cpp \
-    SubjectOfComparison.cpp \
-    Condition.cpp \
-    ConditionExpression.cpp \
-    Value.cpp \
-    BooleanCondition.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -34,3 +24,10 @@ HEADERS += \
     GlobalType.h \
     Value.h \
     BooleanCondition.h
+
+SOURCES += main.cpp \
+    SubjectOfComparison.cpp \
+    Condition.cpp \
+    ConditionExpression.cpp \
+    Value.cpp \
+    BooleanCondition.cpp
