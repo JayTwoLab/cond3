@@ -67,7 +67,7 @@ void TestBooleanCondition()
         }
     }
 
-    /* result belows:
+    /* console result belows:
     //---------------------------------------------------------
     condition number: 11, soc key: LATITUDE, result: true
     condition number: 21, soc key: EXERCISE INDICATOR, result: false
