@@ -1,3 +1,7 @@
+#
+# cond3.pro
+#
+
 TARGET = cond3
 TEMPLATE = app
 QT += core

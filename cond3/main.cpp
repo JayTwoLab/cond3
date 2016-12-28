@@ -59,11 +59,14 @@ void TestBooleanCondition()
             if( cond.getConditionExpressionOperand() == soc.key )
             {
                 bool ret = cond.evaluate( soc );
-                std::string resultString = ret ? "true" : "false";
+                soc.setResult( ret ); // set result to condKey of listSOC
+
+                // debug string
+                string resultString = ret ? "true" : "false";
                 cout << "condition number: " << cond.getConditionNumber()
                      << ", soc key: " << soc.key
                      << ", result: " << resultString << endl;
-                // set result to condKey of listSOC
+
             }
         }
     }

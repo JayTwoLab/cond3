@@ -16,11 +16,16 @@ public:
     SubjectOfComparison();
     SubjectOfComparison( std::string socKey, Value socValue );
     virtual ~SubjectOfComparison();
-public:
     SubjectOfComparison& operator=(SubjectOfComparison& soc);
+public:
+    void setResult(bool res);
+    bool getResult(bool& res);
 public:
     std::string key;
     Value val;
+protected:
+    bool isSet;
+    bool resultSOC;
 };
 typedef SubjectOfComparison SOC; // alias
 
