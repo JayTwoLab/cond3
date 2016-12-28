@@ -51,7 +51,7 @@ void TestBooleanCondition()
 
     for ( ConditionMap::iterator itCond = mapCondition.begin() ; itCond != mapCondition.end() ; itCond ++ )
     {
-        // uint64_t condKey = itCond->first;
+        uint64_t condKey = itCond->first;
         Condition cond = itCond->second;
         for ( SOCList::iterator itSOC = listSOC.begin() ; itSOC != listSOC.end() ; itSOC ++ )
         {
@@ -63,6 +63,7 @@ void TestBooleanCondition()
                 cout << "condition number: " << cond.getConditionNumber()
                      << ", soc key: " << soc.key
                      << ", result: " << resultString << endl;
+                // set result to condKey of listSOC
             }
         }
     }
