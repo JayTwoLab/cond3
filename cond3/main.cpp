@@ -82,27 +82,13 @@ void TestBooleanCondition()
     //-----------------------------------------------
     // part 2. define and evaluate booelan condition
 
-    // 0) define list of condition (LOC)
-    // std::map<uint64_t, bool> mapBC;
+    // 1. make list of BC
 
-    // mapBC.insert( std::pair<uint64_t, bool>( 1, false ) );
-    // mapBC.insert( std::pair<uint64_t, bool>( 2, true  ) );
+    // 2. define BCs
 
-    // 1) define first boolean condition
-    // BooleanCondition bc;
-    // bool isFinalCondition = false;
-    // bc.setCondition( 1, BooleanOperator::And, isFinalCondition );
-    // bc.setFirst ( Condition#1  )
-    // bc.setSecond( false )
+    // 3. evaluate BCs
 
-    // bool first  = true;
-    // bool second = false;
-    // bool result;
-    // if ( bc.evaluate( first, second, result ) )
-    // {
-    // }
-
-    // 2) define list of BooleanCondition (BC)
+    // 4. get final answer of all condition
 
 
 }
