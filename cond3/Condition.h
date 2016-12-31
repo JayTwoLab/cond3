@@ -14,7 +14,7 @@ class Condition
 {
 public:
     Condition();
-    Condition( uint64_t number, CE ce );
+    explicit Condition( uint64_t number, CE ce );
     virtual ~Condition();
 public:
     void setConditionExpression( uint64_t number, CE ce );

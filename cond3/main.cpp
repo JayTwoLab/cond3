@@ -56,10 +56,11 @@ void TestBooleanCondition()
     {
         uint64_t condKey = itCond->first;
         Condition cond = itCond->second;
+        std::string CEOPR = cond.getConditionExpressionOperand();
 
         for ( SOCMap::iterator itSOC = mapSOC.begin() ; itSOC != mapSOC.end() ; itSOC ++ )
         {
-            uint64_t SOCKey = itSOC->first;
+            uint64_t socKey = itSOC->first;
             SOC soc = itSOC->second;
 
             if( cond.getConditionExpressionOperand() == soc.key )
@@ -70,8 +71,8 @@ void TestBooleanCondition()
                 // debug string
                 string resultString = ret ? "true" : "false";
                 cout << "condition number: " << cond.getConditionNumber()
-                     << ", \tsoc key: " << soc.key
-                     << ", \t\tresult: " <<  resultString << endl;
+                     << ", \tsoc key: '" << soc.key
+                     << "', \t\tresult: " <<  resultString << endl;
 
             }
         }
@@ -79,9 +80,9 @@ void TestBooleanCondition()
 
     /* console result belows:
     //---------------------------------------------------------
-    condition number: 11, soc key: 	LATITUDE, result: 	true
-    condition number: 21, soc key: 	EXERCISE INDICATOR, result: 	false
-    condition number: 31, soc key: 	HELLO, result: 	true
+condition number: 11, 	soc key: 'LATITUDE', 		result: true
+condition number: 21, 	soc key: 'EXERCISE INDICATOR', 		result: false
+condition number: 31, 	soc key: 'HELLO', 		result: true
     //---------------------------------------------------------
     */
 

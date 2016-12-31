@@ -15,7 +15,7 @@ class SubjectOfComparison
 {
 public:
     SubjectOfComparison();
-    SubjectOfComparison( uint64_t number, std::string socKey, Value socValue );
+    explicit SubjectOfComparison( uint64_t number, std::string socKey, Value socValue );
 public:
     virtual ~SubjectOfComparison();
 public:

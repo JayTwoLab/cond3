@@ -8,6 +8,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <set>
 #include <vector>
 #include <iostream>
 
@@ -17,6 +18,7 @@ enum ValueType {
     RealNumber = 2,
     String     = 3,
 };
+
 typedef ValueType VT;
 
 enum ConditionOperator {

@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------
 BooleanCondition::BooleanCondition()
 {
-    this->key = 0;
-    this->isSet = false;
+    // this->key = 0;
+    // this->isSet = false;
 }
 
 //-----------------------------------------------------------------------
@@ -14,6 +14,7 @@ BooleanCondition::~BooleanCondition()
 
 }
 
+/*
 //-----------------------------------------------------------------------
 void BooleanCondition::setCondition( uint64_t BCkey, BooleanOperator bo, bool isFinalCondition )
 {
@@ -67,3 +68,8 @@ bool BooleanCondition::getResult(uint64_t& BCKey, bool& out)
 }
 
 //-----------------------------------------------------------------------
+*/
+
+
+
+

@@ -12,36 +12,25 @@ public:
     BooleanCondition();
     virtual ~BooleanCondition();
 
-public:
-    void setCondition( uint64_t BCkey, BooleanOperator bo, bool isFinalCondition );
+    uint64_t numberBC;
 
-    // setKey( key )
+    uint64_t firstNumber;
+    bool isFirstCondType; // true: COND, false: BC
 
-    // setCondition1( SOCNumber soc, SOCNumber soc )
+    uint64_t secondNumber;
+    bool isSecondCondType; // true: COND, false: BC
 
-    // setCondition2( SOCNumber soc, BCNumber bc )
+    bool isFinal;
 
-    // setCondition3( BCNumber bc1, BCNumber bc2 )
-
-
-public:
-
-    // bool evaluate( bool& result )
-
-    bool evaluate(  bool first, bool second, bool& result );
-
-    bool getResult( uint64_t& key, bool& out );
-
-    // bool getConditionNumber( uint64_t& numberBC,  );
+    BO Operator;
 
 protected:
-    uint64_t key;
-    bool isSet;
     bool result;
-    bool isFinal;
-    BooleanOperator booleanOperator;
+
 };
 
 typedef BooleanCondition BC;
+
+typedef std::list<BC> BCList;
 
 #endif // BOOLEANCONDITION_H
