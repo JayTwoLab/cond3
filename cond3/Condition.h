@@ -31,6 +31,7 @@ protected:
     bool result;
     bool isSetResult;
 };
+
 typedef Condition COND; // alias
 
 typedef std::map<uint64_t, Condition> ConditionMap;

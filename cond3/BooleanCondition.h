@@ -11,14 +11,31 @@ class BooleanCondition
 public:
     BooleanCondition();
     virtual ~BooleanCondition();
+
 public:
-    void setCondition( uint64_t numberBC, BooleanOperator bo, bool isFinalCondition );
+    void setCondition( uint64_t BCkey, BooleanOperator bo, bool isFinalCondition );
+
+    // setKey( key )
+
+    // setCondition1( SOCNumber soc, SOCNumber soc )
+
+    // setCondition2( SOCNumber soc, BCNumber bc )
+
+    // setCondition3( BCNumber bc1, BCNumber bc2 )
+
+
 public:
+
+    // bool evaluate( bool& result )
+
     bool evaluate(  bool first, bool second, bool& result );
-    bool getResult( uint64_t& num, bool& out );
+
+    bool getResult( uint64_t& key, bool& out );
+
     // bool getConditionNumber( uint64_t& numberBC,  );
+
 protected:
-    uint64_t number;
+    uint64_t key;
     bool isSet;
     bool result;
     bool isFinal;

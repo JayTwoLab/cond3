@@ -7,9 +7,9 @@ class Value
 {
 public:
     Value();
-    Value(uint64_t num);
-    Value(double realNum);
-    Value(std::string str);
+    explicit Value(uint64_t num);
+    explicit Value(double realNum);
+    explicit Value(std::string str);
     virtual ~Value();
 public:
     ValueType type();
@@ -38,8 +38,10 @@ protected:
 };
 typedef Value VAL;
 
+// #define VDN(DoubleNum)    Value( double(#DoubleNum) )
+
 #define VN(Num)         Value( uint64_t( #Num ) )
+
 #define VS(Str)         Value( std::string( #Str ) )
-// #define VRN(RealNum)    Value( double( #RealNum ) )
 
 #endif // VALUE_H

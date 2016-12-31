@@ -3,7 +3,13 @@
 
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
+
 #include <string>
+#include <map>
+#include <list>
+#include <vector>
+#include <iostream>
 
 enum ValueType {
     NotSet     = 0,

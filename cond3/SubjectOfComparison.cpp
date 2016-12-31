@@ -1,6 +1,4 @@
-//
 // SubjectOfComparison.cpp
-//
 
 #include "SubjectOfComparison.h"
 
@@ -13,29 +11,38 @@ using namespace std;
 SubjectOfComparison::SubjectOfComparison()
 {
     isSet = false;
+
+    numberSOC = 0;
+    this->key.empty();
 }
 
 //-----------------------------------------------------------------------------
-SubjectOfComparison::SubjectOfComparison( std::string socKey, Value socValue )
+SubjectOfComparison::SubjectOfComparison( uint64_t number, std::string socKey, Value socValue )
 {
+    this->numberSOC = number;
+
     this->key = socKey;
+
     this->val = socValue;
 }
 
 //-----------------------------------------------------------------------------
 SubjectOfComparison::~SubjectOfComparison()
 {
-
 }
 
 //-----------------------------------------------------------------------------
 // operator=
-SubjectOfComparison& SubjectOfComparison::operator=(SubjectOfComparison& soc)
+SubjectOfComparison& SubjectOfComparison::operator=( SubjectOfComparison& soc )
 {
     this->key = soc.key;
+
     this->val = soc.val;
 
+    this->numberSOC = soc.numberSOC;
+
     this->isSet = soc.isSet;
+
     this->resultSOC = soc.resultSOC;
 
     return (*this);
@@ -60,3 +67,7 @@ bool SubjectOfComparison::getResult(bool& res)
 }
 
 //-----------------------------------------------------------------------------
+uint64_t SubjectOfComparison::getNumber()
+{
+    return (this->numberSOC);
+}

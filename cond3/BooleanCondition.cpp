@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------
 BooleanCondition::BooleanCondition()
 {
-    this->number = 0;
+    this->key = 0;
     this->isSet = false;
 }
 
@@ -15,9 +15,9 @@ BooleanCondition::~BooleanCondition()
 }
 
 //-----------------------------------------------------------------------
-void BooleanCondition::setCondition( uint64_t numberBC, BooleanOperator bo, bool isFinalCondition )
+void BooleanCondition::setCondition( uint64_t BCkey, BooleanOperator bo, bool isFinalCondition )
 {
-    this->number          = numberBC;
+    this->key          = BCkey;
     this->booleanOperator = bo;
     this->isFinal         = isFinalCondition;
 }
@@ -25,7 +25,7 @@ void BooleanCondition::setCondition( uint64_t numberBC, BooleanOperator bo, bool
 //-----------------------------------------------------------------------
 bool BooleanCondition::evaluate( bool first, bool second, bool& result )
 {
-    if ( 0 == this->number )
+    if ( 0 == this->key )
     {
         return false;
     }
@@ -55,13 +55,15 @@ bool BooleanCondition::evaluate( bool first, bool second, bool& result )
 }
 
 //-----------------------------------------------------------------------
-bool BooleanCondition::getResult(uint64_t& num, bool& out)
+bool BooleanCondition::getResult(uint64_t& BCKey, bool& out)
 {
     if ( !isSet )
         return false;
 
     out = result;
-    num = number;
+    BCKey = key;
 
     return true;
 }
+
+//-----------------------------------------------------------------------
