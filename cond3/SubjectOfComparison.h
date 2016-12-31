@@ -15,7 +15,7 @@ class SubjectOfComparison
 {
 public:
     SubjectOfComparison();
-    explicit SubjectOfComparison( uint64_t number, std::string socKey, Value socValue );
+    explicit SubjectOfComparison( std::string socKey, Value socValue );
 public:
     virtual ~SubjectOfComparison();
 public:
@@ -23,12 +23,10 @@ public:
 public:
     void setResult(bool res);
     bool getResult(bool& res);
-    uint64_t getNumber();
 public:
     std::string key;
     Value val;
 protected:
-    uint64_t numberSOC;
     bool isSet;
     bool resultSOC;
 };
@@ -37,9 +35,9 @@ protected:
 
 typedef SubjectOfComparison SOC;
 
-typedef std::map<uint64_t, SOC> SOCMap;
+typedef std::map<std::string, SOC> SOCMap;
 
-typedef std::pair<uint64_t, SOC> SOCMapPair;
+typedef std::pair<std::string, SOC> SOCMapPair;
 
 typedef SOCMapPair SOCMP;
 

@@ -15,10 +15,14 @@ using namespace std;
 #include "ConditionExpression.h"
 #include "Condition.h"
 #include "BooleanCondition.h"
+#include "ConditionFilter.h"
+
+ConditionFilter g_CF;
 
 void TestValue();
 void TestCondition();
 void TestBooleanCondition();
+void TestConditionFilter();
 
 int main(int argc, char *argv[])
 { // QCoreApplication a(argc, argv);
@@ -26,12 +30,14 @@ int main(int argc, char *argv[])
     // TestValue();
     // TestCondition();
     TestBooleanCondition();
+    // TestConditionFilter();
 
     return 0; // return a.exec();
 }
 
-// #define CONDNODE(CondNum, CondOp, CondKey, CondValue) \
-//         CP( #CondNum, COND( #CondNum, CE( #CondOp, #CondKey, #CondValue ) ) )
+void TestConditionFilter()
+{
+}
 
 //---------------------------------------------
 void TestBooleanCondition()
@@ -42,16 +48,17 @@ void TestBooleanCondition()
 
     // define map of condition
     ConditionMap mapCondition;
-    mapCondition.insert( CP( 11, COND( 11, CE( CO::lessThan, "LATITUDE", Value(double(42)) ) ) ) );
-    mapCondition.insert( CP( 21, COND( 21, CE( CO::isEqual, "EXERCISE INDICATOR", VN(0) ) ) ) );
-    mapCondition.insert( CP( 31, COND( 31, CE( CO::isEqual, "HELLO", VS("hello") ) ) ) );
+    mapCondition.insert( CP( 11, COND( 11, CE( CO::lessThan,    "LATITUDE",             Value(double(42)) ) ) ) );
+    mapCondition.insert( CP( 21, COND( 21, CE( CO::isEqual,     "EXERCISE INDICATOR",   VN(0) ) ) ) );
+    mapCondition.insert( CP( 31, COND( 31, CE( CO::isEqual,     "HELLO",                VS("hello") ) ) ) );
 
     // set map of SOC
     SOCMap mapSOC;
-    mapSOC.insert( SOCMP( 101, SOC( 101, "LATITUDE", Value(double(38.5)) ) ) );
-    mapSOC.insert( SOCMP( 111, SOC( 111, "EXERCISE INDICATOR", VN(1) ) ) );
-    mapSOC.insert( SOCMP( 112, SOC( 112, "HELLO", VS("hello") ) ) );
+    mapSOC.insert( SOCMP( "LATITUDE",           SOC( "LATITUDE",            Value(double(38.5)) ) ) );
+    mapSOC.insert( SOCMP( "EXERCISE INDICATOR", SOC( "EXERCISE INDICATOR",  VN(1) ) ) );
+    mapSOC.insert( SOCMP( "HELLO",              SOC( "HELLO",               VS("hello") ) ) );
 
+    // get result of COND
     for ( ConditionMap::iterator itCond = mapCondition.begin() ; itCond != mapCondition.end() ; itCond ++ )
     {
         uint64_t condKey = itCond->first;
@@ -60,7 +67,7 @@ void TestBooleanCondition()
 
         for ( SOCMap::iterator itSOC = mapSOC.begin() ; itSOC != mapSOC.end() ; itSOC ++ )
         {
-            uint64_t socKey = itSOC->first;
+            std::string socKey = itSOC->first;
             SOC soc = itSOC->second;
 
             if( cond.getConditionExpressionOperand() == soc.key )
@@ -112,7 +119,7 @@ void TestCondition()
 
     //  2) set a subject of comparison to condition
 
-    SubjectOfComparison soc( 501, "LATITUDE", Value(double(37.8)) );
+    SubjectOfComparison soc( "LATITUDE", Value(double(37.8)) );
 
     Condition cond;
     uint64_t numberOfCondition = 1;

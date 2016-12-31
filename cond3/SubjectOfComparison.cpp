@@ -12,14 +12,14 @@ SubjectOfComparison::SubjectOfComparison()
 {
     isSet = false;
 
-    numberSOC = 0;
+    // numberSOC = 0;
     this->key.empty();
 }
 
 //-----------------------------------------------------------------------------
-SubjectOfComparison::SubjectOfComparison( uint64_t number, std::string socKey, Value socValue )
+SubjectOfComparison::SubjectOfComparison( std::string socKey, Value socValue )
 {
-    this->numberSOC = number;
+    // this->numberSOC = number;
 
     this->key = socKey;
 
@@ -39,7 +39,7 @@ SubjectOfComparison& SubjectOfComparison::operator=( SubjectOfComparison& soc )
 
     this->val = soc.val;
 
-    this->numberSOC = soc.numberSOC;
+    // this->numberSOC = soc.numberSOC;
 
     this->isSet = soc.isSet;
 
@@ -67,7 +67,7 @@ bool SubjectOfComparison::getResult(bool& res)
 }
 
 //-----------------------------------------------------------------------------
-uint64_t SubjectOfComparison::getNumber()
-{
-    return (this->numberSOC);
-}
+// uint64_t SubjectOfComparison::getNumber()
+//{
+//    return (this->numberSOC);
+// }

@@ -12,7 +12,10 @@ public:
     BooleanCondition();
     virtual ~BooleanCondition();
 
-    uint64_t numberBC;
+    // void set( uint64_t number, uint64_t firstNO, BO bcOP, uint64_t secondNO );
+    // bool getResult(bool& ret);
+
+    uint64_t numberBC; // default is zero
 
     uint64_t firstNumber;
     bool isFirstCondType; // true: COND, false: BC

@@ -27,11 +27,13 @@ HEADERS += \
     ConditionExpression.h \
     GlobalType.h \
     Value.h \
-    BooleanCondition.h
+    BooleanCondition.h \
+    ConditionFilter.h
 
 SOURCES += main.cpp \
     SubjectOfComparison.cpp \
     Condition.cpp \
     ConditionExpression.cpp \
     Value.cpp \
-    BooleanCondition.cpp
+    BooleanCondition.cpp \
+    ConditionFilter.cpp
