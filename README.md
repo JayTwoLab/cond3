@@ -1,6 +1,6 @@
 # cond3_rule_tree
 
-[Korean README](READMD.ko.md)
+[Korean README](README.ko.md)
 
 A C++17 library for building and evaluating complex rule trees using conditions and subjects. This project provides a flexible framework for defining conditions, grouping them into logical rule trees (AND, OR, NOT), and evaluating them against input data.
 
