@@ -1,6 +1,6 @@
 # cond3_rule_tree
 
-[English README](READMD.md)
+[English README](README.md)
 
 C++17 기반의 조건 및 대상(subject)을 활용한 복합 규칙 트리(rule tree) 생성 및 평가 라이브러리입니다. 이 프로젝트는 다양한 조건을 정의하고, 논리적 규칙 트리(AND, OR, NOT)로 그룹화하여 입력 데이터에 대해 평가할 수 있는 유연한 프레임워크를 제공합니다.
 
