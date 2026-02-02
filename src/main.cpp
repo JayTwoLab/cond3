@@ -1,5 +1,7 @@
 #include "rule.hpp"
 #include "types.hpp"
+#include "subject_utils.hpp"
+#include "rule_parser.hpp"
 
 #include <iostream>
 #include <vector>
@@ -15,41 +17,36 @@ int main() {
     rule_engine engine;
 
     // Define conditions
-    // 11: LATITUDE < 42
-    engine.set_condition(11, condition_expression{condition_operator::less_than, "LATITUDE", value{42.0}});
 
-    // 21: TEST INDICATOR == 0
-    engine.set_condition(21, condition_expression{condition_operator::is_equal, "TEST INDICATOR", value{std::uint64_t{0}}});
+    // condition 11: LATITUDE < 42.0
+	engine.set_condition(11, "<", "LATITUDE", value{ 42.0 }); // double comparison
 
-    // 31: HELLO == "hello"
-    engine.set_condition(31, condition_expression{condition_operator::is_equal, "HELLO", value{"hello"}});
+    // condition 21: TEST INDICATOR == 0
+	engine.set_condition(21, "=", "TEST INDICATOR", value{ std::int64_t{0} }); // integer comparison
 
-    // 41: TEST INDICATOR IN [2,3,5]
-    engine.set_condition(41, condition_expression{
-        "TEST INDICATOR",
-        std::vector<value>{value{std::uint64_t{2}}, value{std::uint64_t{3}}, value{std::uint64_t{5}}}
-    });
+    // condition 31: HELLO == "hello"
+	engine.set_condition(31, "=", "HELLO", value{ "hello" }); // string comparison
 
-    // Rule tree:
+    // condition 41: TEST INDICATOR IN [2,3,5]
+	engine.set_condition<std::int64_t>(41, "IN", "TEST INDICATOR", { 2, 3, 5 }); // integer IN list
+
+    // Rule tree: parse from string
     // RULE = (11 AND (41 OR 31) AND NOT 21)
-    rule_node rule = rule_node::make_all_of({
-        rule_node::make_leaf(11),
-        rule_node::make_any_of({
-            rule_node::make_leaf(41),
-            rule_node::make_leaf(31),
-        }),
-        rule_node::make_not(rule_node::make_leaf(21)),
-    });
+    rule_node rule = cond3::parse_rule("(11 AND (41 OR 31) AND NOT 21)");
 
     // Input (subjects)
     rule_engine::subject_map subjects;
-    subjects.emplace("LATITUDE", cond3::subject{"LATITUDE", value{38.5}});
-    subjects.emplace("TEST INDICATOR", cond3::subject{"TEST INDICATOR", value{std::uint64_t{3}}});
-    subjects.emplace("HELLO", cond3::subject{"HELLO", value{"hello"}});
 
+    // Use helper from subject_utils.hpp so the key string is written only once
+	cond3::add_subject(subjects, "LATITUDE", value{ 38.5 }); // double match
+	cond3::add_subject(subjects, "TEST INDICATOR", value{ std::int64_t{3} }); // integer match
+	cond3::add_subject(subjects, "HELLO", value{ "hello" }); // string match
+
+	// Evaluate rule
     auto r = engine.evaluate_rule(rule, subjects);
 
     if (!r.ok) {
+		// error can happen e.g. when a subject key is missing.
         std::cout << "rule => error: " << to_string(r.error) << "\n";
         return 1;
     }

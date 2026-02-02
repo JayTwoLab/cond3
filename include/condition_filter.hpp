@@ -7,6 +7,9 @@
 #include <cstdint>
 #include <map>
 #include <string>
+#include <type_traits>
+#include <initializer_list>
+#include <vector>
 
 namespace cond3 {
 
@@ -18,6 +21,30 @@ public:
 
     void reset();
     void set_condition(std::uint64_t id, condition_expression expr);
+
+    // Existing overloads
+    void set_condition(std::uint64_t id, const std::string& op_str, std::string operand, value expected);
+    void set_condition(std::uint64_t id, const std::string& op_str, std::string operand, std::vector<value> expected_list);
+
+    // Template overload: accept initializer_list of arithmetic types (integral or floating).
+    // - Integral -> stored as uint64_t values
+    // - Floating -> stored as double values
+    // This is defined in the header because it's a template.
+    template<typename T, typename = std::enable_if_t<std::is_arithmetic<T>::value>>
+    void set_condition(std::uint64_t id, const std::string& op_str, std::string operand, std::initializer_list<T> list) {
+        std::vector<value> vals;
+        vals.reserve(list.size());
+        if constexpr (std::is_integral_v<T>) {
+            for (T v : list) {
+                vals.emplace_back(static_cast<std::uint64_t>(v));
+            }
+        } else { // floating point
+            for (T v : list) {
+                vals.emplace_back(static_cast<double>(v));
+            }
+        }
+        set_condition(id, op_str, std::move(operand), std::move(vals));
+    }
 
     std::map<std::uint64_t, evaluate_result> evaluate_all(const subject_map& subjects) const;
 
