@@ -35,107 +35,45 @@ A C++17 library for building and evaluating complex rule trees using conditions 
 ### Using Condition Expressions
 
 ```cpp
-#include "rule.hpp"
-#include "types.hpp"
-#include "subject_utils.hpp"
-#include "rule_parser.hpp"
+rule_engine engine;
 
-#include <iostream>
-#include <vector>
+// Define conditions
 
-using cond3::condition_expression;
-using cond3::condition_operator;
-using cond3::rule_engine;
-using cond3::rule_node;
-using cond3::to_string;
-using cond3::value;
+// condition 11: LATITUDE < 42.0
+engine.set_condition(11, "<", "LATITUDE", value{ 42.0 }); // double comparison
 
-int main() {
-    rule_engine engine;
+// condition 21: TEST INDICATOR == 0
+engine.set_condition(21, "=", "TEST INDICATOR", value{ std::int64_t{0} }); // integer comparison
 
-    // Define conditions using the string-operator overloads
-    engine.set_condition(11, "<", "LATITUDE", value{42.0});
-    engine.set_condition(21, "=", "TEST INDICATOR", value{std::uint64_t{0}});
-    engine.set_condition(31, "=", "HELLO", value{"hello"});
+// condition 31: HELLO == "hello"
+engine.set_condition(31, "=", "HELLO", value{ "hello" }); // string comparison
 
-    // IN list using initializer_list (specify template type when needed)
-    engine.set_condition<std::int64_t>(41, "IN", "TEST INDICATOR", {2, 3, 5});
+// condition 41: TEST INDICATOR IN [2,3,5]
+engine.set_condition<std::int64_t>(41, "IN", "TEST INDICATOR", { 2, 3, 5 }); // integer IN list
 
-    // Rule tree: parse from a boolean expression string
-    rule_node rule = cond3::parse_rule("(11 AND (41 OR 31) AND NOT 21)");
+// Rule tree: parse from string
+// RULE = (11 AND (41 OR 31) AND NOT 21)
+rule_node rule = cond3::parse_rule("(11 AND (41 OR 31) AND NOT 21)");
 
-    // Input (subjects) ? use add_subject helper to avoid repeating the key
-    rule_engine::subject_map subjects;
-    cond3::add_subject(subjects, "LATITUDE", value{38.5});
-    cond3::add_subject(subjects, "TEST INDICATOR", value{std::uint64_t{3}});
-    cond3::add_subject(subjects, "HELLO", value{"hello"});
+// Input (subjects)
+rule_engine::subject_map subjects;
 
-    auto r = engine.evaluate_rule(rule, subjects);
-    if (!r.ok) {
-        std::cout << "rule => error: " << to_string(r.error) << "\n";
-        return 1;
-    }
+// Use helper from subject_utils.hpp so the key string is written only once
+cond3::add_subject(subjects, "LATITUDE", value{ 38.5 }); // double match
+cond3::add_subject(subjects, "TEST INDICATOR", value{ std::int64_t{3} }); // integer match
+cond3::add_subject(subjects, "HELLO", value{ "hello" }); // string match
 
-    std::cout << "rule => " << (r.value ? "true" : "false") << "\n";
-    return 0;
+// Evaluate rule
+auto r = engine.evaluate_rule(rule, subjects);
+
+if (!r.ok) {
+// error can happen e.g. when a subject key is missing.
+    std::cout << "rule => error: " << to_string(r.error) << "\n";
+    return 1;
 }
+
+std::cout << "rule => " << (r.value ? "true" : "false") << "\n";
 ```
-
-### Original Example
-
-using cond3::condition_expression;
-using cond3::condition_operator;
-using cond3::rule_engine;
-using cond3::rule_node;
-using cond3::to_string;
-using cond3::value;
-
-int main() {
-    rule_engine engine;
-
-    // Define conditions
-    // 11: LATITUDE < 42
-    engine.set_condition(11, condition_expression{condition_operator::less_than, "LATITUDE", value{42.0}});
-
-    // 21: TEST INDICATOR == 0
-    engine.set_condition(21, condition_expression{condition_operator::is_equal, "TEST INDICATOR", value{std::uint64_t{0}}});
-
-    // 31: HELLO == "hello"
-    engine.set_condition(31, condition_expression{condition_operator::is_equal, "HELLO", value{"hello"}});
-
-    // 41: TEST INDICATOR IN [2,3,5]
-    engine.set_condition(41, condition_expression{
-        "TEST INDICATOR",
-        std::vector<value>{value{std::uint64_t{2}}, value{std::uint64_t{3}}, value{std::uint64_t{5}}}
-    });
-
-    // Rule tree:
-    // RULE = (11 AND (41 OR 31) AND NOT 21)
-    rule_node rule = rule_node::make_all_of({
-        rule_node::make_leaf(11),
-        rule_node::make_any_of({
-            rule_node::make_leaf(41),
-            rule_node::make_leaf(31),
-        }),
-        rule_node::make_not(rule_node::make_leaf(21)),
-    });
-
-    // Input (subjects)
-    rule_engine::subject_map subjects;
-    subjects.emplace("LATITUDE", cond3::subject{"LATITUDE", value{38.5}});
-    subjects.emplace("TEST INDICATOR", cond3::subject{"TEST INDICATOR", value{std::uint64_t{3}}});
-    subjects.emplace("HELLO", cond3::subject{"HELLO", value{"hello"}});
-
-    auto r = engine.evaluate_rule(rule, subjects);
-
-    if (!r.ok) {
-        std::cout << "rule => error: " << to_string(r.error) << "\n";
-        return 1;
-    }
-
-    std::cout << "rule => " << (r.value ? "true" : "false") << "\n";
-    return 0;
-}
 
 ## Build Instructions
 
