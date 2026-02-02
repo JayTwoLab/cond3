@@ -10,6 +10,8 @@ A C++17 library for building and evaluating complex rule trees using conditions 
 - **Rule Trees**: Compose conditions into rule trees using logical operations (AND, OR, NOT).
 - **Evaluation Engine**: Evaluate rules against input subjects and get detailed results, including error reasons.
 - **Extensible Types**: Supports numbers, real numbers, and strings as value types.
+- **String-Operator Overloads**: Simplify condition definitions using string representations of operators.
+- **Rule Parsing**: Parse rule trees from boolean expression strings for easier rule definition.
 
 ## Project Structure
 
@@ -22,13 +24,65 @@ A C++17 library for building and evaluating complex rule trees using conditions 
   - `subject.hpp`: Input data structure for evaluation.
   - `types.hpp`: Enums and type definitions.
   - `value.hpp`: Value container supporting multiple types.
+  - `subject_utils.hpp`: Utility functions for managing subjects.
+  - `rule_parser.hpp`: Functions for parsing rule expressions from strings.
 - `src/`: Implementation files.
   - `main.cpp`: Example usage and demo.
   - Other `.cpp` files: Implement the core logic.
 
 ## Example Usage
 
+### Using Condition Expressions
+
 ```cpp
+#include "rule.hpp"
+#include "types.hpp"
+#include "subject_utils.hpp"
+#include "rule_parser.hpp"
+
+#include <iostream>
+#include <vector>
+
+using cond3::condition_expression;
+using cond3::condition_operator;
+using cond3::rule_engine;
+using cond3::rule_node;
+using cond3::to_string;
+using cond3::value;
+
+int main() {
+    rule_engine engine;
+
+    // Define conditions using the string-operator overloads
+    engine.set_condition(11, "<", "LATITUDE", value{42.0});
+    engine.set_condition(21, "=", "TEST INDICATOR", value{std::uint64_t{0}});
+    engine.set_condition(31, "=", "HELLO", value{"hello"});
+
+    // IN list using initializer_list (specify template type when needed)
+    engine.set_condition<std::int64_t>(41, "IN", "TEST INDICATOR", {2, 3, 5});
+
+    // Rule tree: parse from a boolean expression string
+    rule_node rule = cond3::parse_rule("(11 AND (41 OR 31) AND NOT 21)");
+
+    // Input (subjects) ? use add_subject helper to avoid repeating the key
+    rule_engine::subject_map subjects;
+    cond3::add_subject(subjects, "LATITUDE", value{38.5});
+    cond3::add_subject(subjects, "TEST INDICATOR", value{std::uint64_t{3}});
+    cond3::add_subject(subjects, "HELLO", value{"hello"});
+
+    auto r = engine.evaluate_rule(rule, subjects);
+    if (!r.ok) {
+        std::cout << "rule => error: " << to_string(r.error) << "\n";
+        return 1;
+    }
+
+    std::cout << "rule => " << (r.value ? "true" : "false") << "\n";
+    return 0;
+}
+```
+
+### Original Example
+
 using cond3::condition_expression;
 using cond3::condition_operator;
 using cond3::rule_engine;
@@ -82,7 +136,6 @@ int main() {
     std::cout << "rule => " << (r.value ? "true" : "false") << "\n";
     return 0;
 }
-```
 
 ## Build Instructions
 

@@ -9,6 +9,7 @@ add_library(cond3
     src/evaluator.cpp
     src/condition_filter.cpp
     src/rule.cpp
+    src/rule_parser.cpp
 )
 
 target_include_directories(cond3 PUBLIC
