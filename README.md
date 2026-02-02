@@ -13,23 +13,6 @@ A C++17 library for building and evaluating complex rule trees using conditions 
 - **String-Operator Overloads**: Simplify condition definitions using string representations of operators.
 - **Rule Parsing**: Parse rule trees from boolean expression strings for easier rule definition.
 
-## Project Structure
-
-- `include/`: Public headers for the library.
-  - `condition_expression.hpp`: Defines the structure of a condition expression.
-  - `condition_filter.hpp`: Stores and evaluates multiple conditions.
-  - `condition.hpp`: Represents a single condition.
-  - `evaluator.hpp`: Evaluation logic for conditions.
-  - `rule.hpp`: Rule tree node and engine definitions.
-  - `subject.hpp`: Input data structure for evaluation.
-  - `types.hpp`: Enums and type definitions.
-  - `value.hpp`: Value container supporting multiple types.
-  - `subject_utils.hpp`: Utility functions for managing subjects.
-  - `rule_parser.hpp`: Functions for parsing rule expressions from strings.
-- `src/`: Implementation files.
-  - `main.cpp`: Example usage and demo.
-  - Other `.cpp` files: Implement the core logic.
-
 ## Example Usage
 
 ### Using Condition Expressions
