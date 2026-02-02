@@ -35,51 +35,45 @@ C++17 기반의 조건 및 대상(subject)을 활용한 복합 규칙 트리(rul
 - `add_subject` 헬퍼로 키 중복 방지
 
 ```cpp
-#include "rule.hpp"
-#include "types.hpp"
-#include "subject_utils.hpp"
-#include "rule_parser.hpp"
+rule_engine engine;
 
-#include <iostream>
-#include <vector>
+// Define conditions
 
-using cond3::condition_expression;
-using cond3::condition_operator;
-using cond3::rule_engine;
-using cond3::rule_node;
-using cond3::to_string;
-using cond3::value;
+// condition 11: LATITUDE < 42.0
+engine.set_condition(11, "<", "LATITUDE", value{ 42.0 }); // double comparison
 
-int main() {
-    rule_engine engine;
+// condition 21: TEST INDICATOR == 0
+engine.set_condition(21, "=", "TEST INDICATOR", value{ std::int64_t{0} }); // integer comparison
 
-    // Define conditions using the string-operator overloads
-    engine.set_condition(11, "<", "LATITUDE", value{42.0});
-    engine.set_condition(21, "=", "TEST INDICATOR", value{std::uint64_t{0}});
-    engine.set_condition(31, "=", "HELLO", value{"hello"});
+// condition 31: HELLO == "hello"
+engine.set_condition(31, "=", "HELLO", value{ "hello" }); // string comparison
 
-    // IN list using initializer_list (specify template type when needed)
-    engine.set_condition<std::int64_t>(41, "IN", "TEST INDICATOR", {2, 3, 5});
+// condition 41: TEST INDICATOR IN [2,3,5]
+engine.set_condition<std::int64_t>(41, "IN", "TEST INDICATOR", { 2, 3, 5 }); // integer IN list
 
-    // Rule tree: parse from a boolean expression string
-    rule_node rule = cond3::parse_rule("(11 AND (41 OR 31) AND NOT 21)");
+// Rule tree: parse from string
+// RULE = (11 AND (41 OR 31) AND NOT 21)
+rule_node rule = cond3::parse_rule("(11 AND (41 OR 31) AND NOT 21)");
 
-    // Input (subjects) — use add_subject helper to avoid repeating the key
-    rule_engine::subject_map subjects;
-    cond3::add_subject(subjects, "LATITUDE", value{38.5});
-    cond3::add_subject(subjects, "TEST INDICATOR", value{std::uint64_t{3}});
-    cond3::add_subject(subjects, "HELLO", value{"hello"});
+// Input (subjects)
+rule_engine::subject_map subjects;
 
-    auto r = engine.evaluate_rule(rule, subjects);
-    if (!r.ok) {
-        std::cout << "rule => error: " << to_string(r.error) << "\n";
-        return 1;
-    }
+// Use helper from subject_utils.hpp so the key string is written only once
+cond3::add_subject(subjects, "LATITUDE", value{ 38.5 }); // double match
+cond3::add_subject(subjects, "TEST INDICATOR", value{ std::int64_t{3} }); // integer match
+cond3::add_subject(subjects, "HELLO", value{ "hello" }); // string match
 
-    std::cout << "rule => " << (r.value ? "true" : "false") << "\n";
-    return 0;
+// Evaluate rule
+auto r = engine.evaluate_rule(rule, subjects);
+
+if (!r.ok) {
+// error can happen e.g. when a subject key is missing.
+    std::cout << "rule => error: " << to_string(r.error) << "\n";
+    return 1;
 }
-```
+
+std::cout << "rule => " << (r.value ? "true" : "false") << "\n";
+``` 
 
 ## 빌드 방법
 
