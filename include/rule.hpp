@@ -60,19 +60,19 @@ public:
     // original form
     void set_condition(std::uint64_t id, condition_expression expr) { filter_.set_condition(id, std::move(expr)); }
 
-    // new convenience overloads that accept operator as string
-    void set_condition(std::uint64_t id, const std::string& op_str, std::string operand, value expected) {
-        filter_.set_condition(id, op_str, std::move(operand), std::move(expected));
+    // Updated convenience overloads: operand comes before operator string
+    void set_condition(std::uint64_t id, std::string operand, const std::string& op_str, value expected) {
+        filter_.set_condition(id, std::move(operand), op_str, std::move(expected));
     }
 
-    void set_condition(std::uint64_t id, const std::string& op_str, std::string operand, std::vector<value> expected_list) {
-        filter_.set_condition(id, op_str, std::move(operand), std::move(expected_list));
+    void set_condition(std::uint64_t id, std::string operand, const std::string& op_str, std::vector<value> expected_list) {
+        filter_.set_condition(id, std::move(operand), op_str, std::move(expected_list));
     }
 
     // Template forwarder for initializer_list of arithmetic types (integral or floating).
     template<typename T, typename = std::enable_if_t<std::is_arithmetic<T>::value>>
-    void set_condition(std::uint64_t id, const std::string& op_str, std::string operand, std::initializer_list<T> list) {
-        filter_.set_condition(id, op_str, std::move(operand), list);
+    void set_condition(std::uint64_t id, std::string operand, const std::string& op_str, std::initializer_list<T> list) {
+        filter_.set_condition(id, std::move(operand), op_str, list);
     }
 
     evaluate_result evaluate_rule(const rule_node& rule, const subject_map& subjects) const;

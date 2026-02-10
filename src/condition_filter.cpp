@@ -45,7 +45,7 @@ static condition_operator parse_operator_string(const std::string& s) {
     throw std::invalid_argument("unknown operator string: " + s);
 }
 
-void condition_filter::set_condition(std::uint64_t id, const std::string& op_str, std::string operand, value expected) {
+void condition_filter::set_condition(std::uint64_t id, std::string operand, const std::string& op_str, value expected) {
     const auto op = parse_operator_string(op_str);
     if (op == condition_operator::in_list) {
         throw std::invalid_argument("operator 'IN' requires a value list overload");
@@ -54,7 +54,7 @@ void condition_filter::set_condition(std::uint64_t id, const std::string& op_str
     set_condition(id, std::move(expr));
 }
 
-void condition_filter::set_condition(std::uint64_t id, const std::string& op_str, std::string operand, std::vector<value> expected_list) {
+void condition_filter::set_condition(std::uint64_t id, std::string operand, const std::string& op_str, std::vector<value> expected_list) {
     const auto op = parse_operator_string(op_str);
     if (op != condition_operator::in_list) {
         throw std::invalid_argument("only operator 'IN' accepts a value list");
