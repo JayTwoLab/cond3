@@ -10,6 +10,7 @@
 #include <type_traits>
 #include <initializer_list>
 #include <vector>
+#include <optional>
 
 namespace cond3 {
 
@@ -57,6 +58,9 @@ public:
 
     // Used for lazy evaluation in a rule tree
     evaluate_result evaluate_one(std::uint64_t condition_id, const subject_map& subjects) const;
+
+    // Human readable representation of a condition (for logging)
+    std::string condition_to_string(std::uint64_t condition_id) const;
 
 private:
     condition_map conditions_;

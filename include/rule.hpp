@@ -10,6 +10,8 @@
 #include <string>
 #include <type_traits>
 #include <initializer_list>
+#include <functional>
+#include <cstddef>
 
 namespace cond3 {
 
@@ -80,16 +82,24 @@ public:
         filter_.set_condition_string(id, cond_str);
     }
 
+    // Logging: set a callback to receive trace messages. If not set, no logs emitted.
+    void set_log_callback(std::function<void(const std::string&)> cb) { logger_ = std::move(cb); }
+
     evaluate_result evaluate_rule(const rule_node& rule, const subject_map& subjects) const;
 
 private:
+    // depth: indentation level for tree-structured logs
     evaluate_result eval_node(
         const rule_node& node,
         const subject_map& subjects,
-        std::unordered_map<std::uint64_t, evaluate_result>& cache) const;
+        std::unordered_map<std::uint64_t, evaluate_result>& cache,
+        std::size_t depth = 0) const;
 
 private:
     condition_filter filter_;
+
+    // mutable so const evaluate functions can emit logs via callback
+    mutable std::function<void(const std::string&)> logger_;
 };
 
 } // namespace cond3

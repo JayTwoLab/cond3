@@ -46,6 +46,11 @@ int main() {
     cond3::add_subject(subjects, "TEST INDICATOR", value{ std::int64_t{3} }); // integer match
     cond3::add_subject(subjects, "HELLO", value{ "hello" }); // string match
 
+    // log callback for tracing
+    engine.set_log_callback([](const std::string& msg){
+        std::cout << "[TRACE] " << msg << "\n";
+    });
+
     // Evaluate rule
     auto r = engine.evaluate_rule(rule, subjects);
 

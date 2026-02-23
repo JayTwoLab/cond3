@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <cstdlib>
+#include <sstream>
 
 namespace cond3 {
 
@@ -258,6 +259,56 @@ condition_expression parse_condition_from_string(const std::string& src) {
 void condition_filter::set_condition_string(std::uint64_t id, const std::string& cond_str) {
     condition_expression expr = parse_condition_from_string(cond_str);
     set_condition(id, std::move(expr));
+}
+
+std::string condition_filter::condition_to_string(std::uint64_t condition_id) const {
+    auto it = conditions_.find(condition_id);
+    if (it == conditions_.end()) {
+        return "<condition-not-set:" + std::to_string(condition_id) + ">";
+    }
+    const auto& expr = it->second.expression();
+    std::ostringstream ss;
+    ss << "'" << expr.operand << "' ";
+    if (expr.op == condition_operator::in_list) {
+        ss << "IN [";
+        for (std::size_t i = 0; i < expr.expected_list.size(); ++i) {
+            if (i) ss << ",";
+            const auto& v = expr.expected_list[i];
+            switch (v.type()) {
+                case value_type::number:
+                    ss << *v.as_number();
+                    break;
+                case value_type::real_number:
+                    ss << *v.as_real_number();
+                    break;
+                case value_type::string:
+                    ss << "'" << *v.as_string() << "'";
+                    break;
+                default:
+                    ss << "<not_set>";
+                    break;
+            }
+        }
+        ss << "]";
+    } else {
+        ss << to_string(expr.op) << " ";
+        const auto& v = expr.expected;
+        switch (v.type()) {
+            case value_type::number:
+                ss << *v.as_number();
+                break;
+            case value_type::real_number:
+                ss << *v.as_real_number();
+                break;
+            case value_type::string:
+                ss << "'" << *v.as_string() << "'";
+                break;
+            default:
+                ss << "<not_set>";
+                break;
+        }
+    }
+    return ss.str();
 }
 
 } // namespace cond3
