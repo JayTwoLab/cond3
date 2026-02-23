@@ -46,6 +46,13 @@ public:
         set_condition(id, std::move(operand), op_str, std::move(vals));
     }
 
+    // Parse a condition from a simple string. Supported forms:
+    //   "'KEY' < 42.0"
+    //   "'KEY' = 'str'"
+    //   "'KEY' IN [1,2,3]"
+    //   "'KEY' 'str'"  // equality shorthand (no operator)
+    void set_condition_string(std::uint64_t id, const std::string& cond_str);
+
     std::map<std::uint64_t, evaluate_result> evaluate_all(const subject_map& subjects) const;
 
     // Used for lazy evaluation in a rule tree

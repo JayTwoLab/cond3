@@ -75,6 +75,11 @@ public:
         filter_.set_condition(id, std::move(operand), op_str, list);
     }
 
+    // String form convenience API
+    void set_condition_string(std::uint64_t id, const std::string& cond_str) {
+        filter_.set_condition_string(id, cond_str);
+    }
+
     evaluate_result evaluate_rule(const rule_node& rule, const subject_map& subjects) const;
 
 private:

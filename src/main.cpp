@@ -19,16 +19,20 @@ int main() {
     // Define conditions
 
     // condition 11: LATITUDE < 42.0
-	engine.set_condition(11, "LATITUDE", "<", value{ 42.0 }); // double comparison
+    // engine.set_condition(11, "LATITUDE", "<", value{ 42.0 }); // double comparison
+    engine.set_condition_string(11, "'LATITUDE' < 42.0"); // double comparison
 
     // condition 21: TEST INDICATOR == 0
-	engine.set_condition(21, "TEST INDICATOR", "=", value{ std::int64_t{0} }); // integer comparison
+    // engine.set_condition(21, "TEST INDICATOR", "=", value{ std::int64_t{0} }); // integer comparison
+	engine.set_condition_string(21, "'TEST INDICATOR' = 0"); // integer comparison (shorthand equality)
 
-    // condition 31: HELLO == "hello"
-	engine.set_condition(31, "HELLO", "=", value{ "hello" }); // string comparison
+    // condition 31: HELLO == 'hello'
+	// engine.set_condition(31, "HELLO", "=", value{ "hello" }); // string comparison
+    engine.set_condition_string(31, "'HELLO' = 'hello'"); // string comparison (single-quote form)
 
     // condition 41: TEST INDICATOR IN [2,3,5]
-	engine.set_condition<std::int64_t>(41, "TEST INDICATOR", "IN", { 2, 3, 5 }); // integer IN list
+    // engine.set_condition<std::int64_t>(41, "TEST INDICATOR", "IN", { 2, 3, 5 }); // integer IN list
+	engine.set_condition_string(41, "'TEST INDICATOR' IN [2,3,5]"); // integer IN list (string form)
 
     // Rule tree: parse from string
     // RULE = (11 AND (41 OR 31) AND NOT 21)
@@ -38,15 +42,15 @@ int main() {
     rule_engine::subject_map subjects;
 
     // Use helper from subject_utils.hpp so the key string is written only once
-	cond3::add_subject(subjects, "LATITUDE", value{ 38.5 }); // double match
-	cond3::add_subject(subjects, "TEST INDICATOR", value{ std::int64_t{3} }); // integer match
-	cond3::add_subject(subjects, "HELLO", value{ "hello" }); // string match
+    cond3::add_subject(subjects, "LATITUDE", value{ 38.5 }); // double match
+    cond3::add_subject(subjects, "TEST INDICATOR", value{ std::int64_t{3} }); // integer match
+    cond3::add_subject(subjects, "HELLO", value{ "hello" }); // string match
 
-	// Evaluate rule
+    // Evaluate rule
     auto r = engine.evaluate_rule(rule, subjects);
 
     if (!r.ok) {
-		// error can happen e.g. when a subject key is missing.
+        // error can happen e.g. when a subject key is missing.
         std::cout << "rule => error: " << to_string(r.error) << "\n";
         return 1;
     }
