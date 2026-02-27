@@ -1,4 +1,5 @@
 #include "rule.hpp"
+#include "rule_parser.hpp"
 
 #include <sstream>
 #include <string>
@@ -128,6 +129,39 @@ evaluate_result rule_engine::evaluate_rule(const rule_node& rule, const subject_
         log(ss.str());
     }
     return res;
+}
+
+// --- New API implementations
+
+void rule_engine::set_rule(std::uint64_t id, const std::string& rule_expr) {
+    // Parse and store the rule_node. parse_rule throws std::invalid_argument on parse errors.
+    rule_node parsed = parse_rule(rule_expr);
+    rules_[id] = std::move(parsed);
+
+    if (logger_) {
+        std::ostringstream ss;
+        ss << "set_rule: id=" << id << " stored -> " << rule_expr;
+        logger_(ss.str());
+    }
+}
+
+bool rule_engine::has_rule(std::uint64_t id) const {
+    return rules_.find(id) != rules_.end();
+}
+
+evaluate_result rule_engine::evaluate_rule(std::uint64_t id, const subject_map& subjects) const {
+    auto it = rules_.find(id);
+    if (it == rules_.end()) {
+        if (logger_) {
+            std::ostringstream ss;
+            ss << "evaluate_rule(id): rule id=" << id << " not found";
+            logger_(ss.str());
+        }
+        return evaluate_result{false, false, evaluate_error::expression_not_set};
+    }
+
+    // Delegate to the existing evaluate_rule(rule_node, subjects)
+    return evaluate_rule(it->second, subjects);
 }
 
 evaluate_result rule_engine::eval_node(

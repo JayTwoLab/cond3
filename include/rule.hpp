@@ -93,7 +93,18 @@ public:
     // Logging: set a callback to receive trace messages. If not set, no logs emitted.
     void set_log_callback(std::function<void(const std::string&)> cb) { logger_ = std::move(cb); }
 
+    // Evaluate a rule tree directly
     evaluate_result evaluate_rule(const rule_node& rule, const subject_map& subjects) const;
+
+    // --- New API: store named rules by id (string expression is parsed and stored).
+    // Set a rule by id from a string expression. Throws std::invalid_argument on parse error.
+    void set_rule(std::uint64_t id, const std::string& rule_expr);
+
+    // Check presence
+    bool has_rule(std::uint64_t id) const;
+
+    // Evaluate a previously stored rule by id.
+    evaluate_result evaluate_rule(std::uint64_t id, const subject_map& subjects) const;
 
 private:
     // depth: indentation level for tree-structured logs
@@ -105,6 +116,9 @@ private:
 
 private:
     condition_filter filter_;
+
+    // stored rules (rule id -> parsed rule_node)
+    std::unordered_map<std::uint64_t, rule_node> rules_;
 
     // mutable so const evaluate functions can emit logs via callback
     mutable std::function<void(const std::string&)> logger_;
