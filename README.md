@@ -23,16 +23,20 @@ rule_engine engine;
 // Define conditions
 
 // condition 11: LATITUDE < 42.0
-engine.set_condition(11, "LATITUDE", "<", value{ 42.0 }); // double comparison
+// engine.set_condition(11, "LATITUDE", "<", value{ 42.0 }); // double comparison
+engine.set_condition_string(11, "'LATITUDE' < 42.0"); // double comparison
 
 // condition 21: TEST INDICATOR == 0
-engine.set_condition(21, "TEST INDICATOR", "=", value{ std::int64_t{0} }); // integer comparison
+// engine.set_condition(21, "TEST INDICATOR", "=", value{ std::int64_t{0} }); // integer comparison
+engine.set_condition_string(21, "'TEST INDICATOR' = 0"); // integer comparison (shorthand equality)
 
-// condition 31: HELLO == "hello"
-engine.set_condition(31, "HELLO", "=", value{ "hello" }); // string comparison
+// condition 31: HELLO == 'hello'
+// engine.set_condition(31, "HELLO", "=", value{ "hello" }); // string comparison
+engine.set_condition_string(31, "'HELLO' = 'hello'"); // string comparison (single-quote form)
 
 // condition 41: TEST INDICATOR IN [2,3,5]
-engine.set_condition<std::int64_t>(41, "TEST INDICATOR", "IN", { 2, 3, 5 }); // integer IN list
+// engine.set_condition<std::int64_t>(41, "TEST INDICATOR", "IN", { 2, 3, 5 }); // integer IN list
+engine.set_condition_string(41, "'TEST INDICATOR' IN [2,3,5]"); // integer IN list (string form)
 
 // Rule tree: parse from string
 // RULE = (11 AND (41 OR 31) AND NOT 21)
