@@ -4,6 +4,7 @@ project(cond3_rule_tree LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# cond3 library
 add_library(cond3
     src/value.cpp
     src/evaluator.cpp
@@ -18,8 +19,16 @@ target_include_directories(cond3 PUBLIC
 
 target_compile_features(cond3 PUBLIC cxx_std_17)
 
+# cond3_demo executable
 add_executable(cond3_demo
     src/main.cpp
 )
 
 target_link_libraries(cond3_demo PRIVATE cond3)
+
+# Copy conditions.json into the build directory (CMAKE_BINARY_DIR)
+configure_file(${CMAKE_SOURCE_DIR}/conditions.json ${CMAKE_BINARY_DIR}/conditions.json COPYONLY)
+
+ 
+
+

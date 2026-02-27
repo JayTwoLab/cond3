@@ -54,6 +54,14 @@ public:
     //   "'KEY' 'str'"  // equality shorthand (no operator)
     void set_condition_string(std::uint64_t id, const std::string& cond_str);
 
+    // Parse and set condition from JSON string:
+    // example: {"operand":"TEST INDICATOR","operator":"IN","value":[2,3,5]}
+    void set_condition_json(std::uint64_t id, const std::string& json_str);
+
+    // Read JSON file containing an array of condition objects (see schema above)
+    // and set all conditions. Throws std::invalid_argument on parse/validation errors.
+    void set_conditions_from_file(const std::string& file_path);
+
     std::map<std::uint64_t, evaluate_result> evaluate_all(const subject_map& subjects) const;
 
     // Used for lazy evaluation in a rule tree

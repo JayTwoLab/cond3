@@ -77,9 +77,17 @@ public:
         filter_.set_condition(id, std::move(operand), op_str, list);
     }
 
-    // String form convenience API
+    // String/JSON form convenience API
     void set_condition_string(std::uint64_t id, const std::string& cond_str) {
         filter_.set_condition_string(id, cond_str);
+    }
+
+    void set_condition_json(std::uint64_t id, const std::string& json_str) {
+        filter_.set_condition_json(id, json_str);
+    }
+
+    void set_conditions_from_file(const std::string& file_path) {
+        filter_.set_conditions_from_file(file_path);
     }
 
     // Logging: set a callback to receive trace messages. If not set, no logs emitted.

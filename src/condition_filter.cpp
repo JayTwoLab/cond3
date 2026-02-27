@@ -9,6 +9,10 @@
 #include <cstdlib>
 #include <sstream>
 
+// JSON header
+#include <nlohmann/json.hpp>
+#include <fstream>
+
 namespace cond3 {
 
 void condition_filter::reset() {
@@ -259,6 +263,106 @@ condition_expression parse_condition_from_string(const std::string& src) {
 void condition_filter::set_condition_string(std::uint64_t id, const std::string& cond_str) {
     condition_expression expr = parse_condition_from_string(cond_str);
     set_condition(id, std::move(expr));
+}
+
+// JSON support for set_condition_json and bulk file loader
+void condition_filter::set_condition_json(std::uint64_t id, const std::string& json_str) {
+    using nlohmann::json;
+    json j;
+    try {
+        j = json::parse(json_str);
+    } catch (const std::exception& e) {
+        throw std::invalid_argument(std::string("invalid json: ") + e.what());
+    }
+
+    if (!j.is_object()) throw std::invalid_argument("json must be an object");
+
+    // operand (required)
+    if (!j.contains("operand")) throw std::invalid_argument("json must contain 'operand'");
+    std::string operand = j["operand"].get<std::string>();
+
+    // operator (optional, default "=")
+    std::string op_str = "=";
+    if (j.contains("operator") && !j["operator"].is_null()) {
+        op_str = j["operator"].get<std::string>();
+    }
+
+    // value (required)
+    if (!j.contains("value")) throw std::invalid_argument("json must contain 'value'");
+
+    const json& val = j["value"];
+    if (val.is_array()) {
+        std::vector<value> vals;
+        vals.reserve(val.size());
+        for (const auto& el : val) {
+            if (el.is_string()) {
+                vals.emplace_back(el.get<std::string>());
+            } else if (el.is_number_integer()) {
+                vals.emplace_back(static_cast<long long>(el.get<long long>()));
+            } else if (el.is_number_float()) {
+                vals.emplace_back(el.get<double>());
+            } else {
+                throw std::invalid_argument("unsupported array element type in JSON value list");
+            }
+        }
+        // operator must be IN for list
+        std::string up_op = op_str;
+        for (auto& ch : up_op) ch = static_cast<char>(std::toupper(static_cast<unsigned char>(ch)));
+        if (up_op != "IN") {
+            throw std::invalid_argument("JSON value array requires operator 'IN'");
+        }
+        set_condition(id, std::move(operand), op_str, std::move(vals));
+        return;
+    }
+
+    // single value
+    value v;
+    if (val.is_string()) {
+        v = value{val.get<std::string>()};
+    } else if (val.is_number_integer()) {
+        v = value{static_cast<long long>(val.get<long long>())};
+    } else if (val.is_number_float()) {
+        v = value{val.get<double>()};
+    } else {
+        throw std::invalid_argument("unsupported JSON value type");
+    }
+
+    set_condition(id, std::move(operand), op_str, std::move(v));
+}
+
+void condition_filter::set_conditions_from_file(const std::string& file_path) {
+    using nlohmann::json;
+    std::ifstream ifs(file_path, std::ios::binary);
+    if (!ifs) {
+        throw std::invalid_argument("failed to open conditions file: " + file_path);
+    }
+    std::string s((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+    json j;
+    try {
+        j = json::parse(s);
+    } catch (const std::exception& e) {
+        throw std::invalid_argument(std::string("invalid json in file: ") + e.what());
+    }
+
+    // Accept either a top-level array of condition objects or { "conditions": [ ... ] }
+    json arr;
+    if (j.is_array()) {
+        arr = j;
+    } else if (j.is_object() && j.contains("conditions") && j["conditions"].is_array()) {
+        arr = j["conditions"];
+    } else {
+        throw std::invalid_argument("conditions file must be an array or an object with 'conditions' array");
+    }
+
+    for (const auto& el : arr) {
+        if (!el.is_object()) throw std::invalid_argument("each condition entry must be an object");
+        if (!el.contains("id")) throw std::invalid_argument("condition entry missing 'id'");
+        std::uint64_t id = el["id"].get<std::uint64_t>();
+        // Remove 'id' before handing to set_condition_json, which expects operand/operator/value
+        json obj = el;
+        obj.erase("id");
+        set_condition_json(id, obj.dump());
+    }
 }
 
 std::string condition_filter::condition_to_string(std::uint64_t condition_id) const {
