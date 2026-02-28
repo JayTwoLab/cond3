@@ -11,6 +11,7 @@ add_library(cond3
     src/condition_filter.cpp
     src/rule.cpp
     src/rule_parser.cpp
+    src/rule_loader.cpp
 )
 
 target_include_directories(cond3 PUBLIC
@@ -28,7 +29,6 @@ target_link_libraries(cond3_demo PRIVATE cond3)
 
 # Copy conditions.json into the build directory (CMAKE_BINARY_DIR)
 configure_file(${CMAKE_SOURCE_DIR}/conditions.json ${CMAKE_BINARY_DIR}/conditions.json COPYONLY)
-
- 
+configure_file(${CMAKE_SOURCE_DIR}/rules.json      ${CMAKE_BINARY_DIR}/rules.json      COPYONLY)
 
 
