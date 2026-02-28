@@ -1,0 +1,24 @@
+[
+  {
+    "id": 11,
+    "operand": "LATITUDE",
+    "operator": "<",
+    "value": 42.0
+  },
+  {
+    "id": 21,
+    "operand": "TEST INDICATOR",
+    "value": 0
+  },
+  {
+    "id": 31,
+    "operand": "HELLO",
+    "value": "hello"
+  },
+  {
+    "id": 41,
+    "operand": "TEST INDICATOR",
+    "operator": "IN",
+    "value": [ 2, 3, 5 ]
+  }
+]
